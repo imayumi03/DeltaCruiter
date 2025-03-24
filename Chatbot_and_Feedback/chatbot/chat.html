@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head><title>Recruiters Chatbot</title></head>
+<body>
+    <h2>Chat with Gemini</h2>
+    <div id="chatbox"></div>
+    <input id="message" type="text">
+    <button onclick="sendMessage()">Send</button>
+
+    <h3>Submit Feedback</h3>
+    <form id="feedback-form">
+        <input name="recruiter_name" placeholder="Your name"><br>
+        <input name="candidate_id" placeholder="Candidate ID"><br>
+        <input name="job_id" placeholder="Job ID"><br>
+        <label>Correct Match?</label>
+        <select name="is_correct_match">
+            <option value="true">Yes</option>
+            <option value="false">No</option>
+        </select><br>
+        <input name="score_accuracy" type="number" placeholder="Accuracy Score (0-5)"><br>
+        <textarea name="missing_skills" placeholder="Missing skills..."></textarea><br>
+        <textarea name="comments" placeholder="Comments..."></textarea><br>
+        <button type="submit">Send Feedback</button>
+    </form>
+
+    <script>
+        function sendMessage() {
+            const msg = document.getElementById("message").value;
+            fetch("/api/chat/", {
+                method: "POST",
+                headers: {"Content-Type": "application/x-www-form-urlencoded"},
+                body: `message=${encodeURIComponent(msg)}`
+            })
+            .then(res => res.json())
+            .then(data => {
+                const chatbox = document.getElementById("chatbox");
+                chatbox.innerHTML += `<p><b>You:</b> ${msg}</p>`;
+                chatbox.innerHTML += `<p><b>Bot:</b> ${data.response}</p>`;
+            });
+        }
+
+        document.getElementById("feedback-form").addEventListener("submit", function(e) {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            fetch("/api/feedback/", {
+                method: "POST",
+                body: new URLSearchParams(formData)
+            }).then(res => res.json())
+              .then(data => alert(data.status));
+        });
+    </script>
+</body>
+</html>
