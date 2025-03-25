@@ -1,0 +1,311 @@
+/* Header Style */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 5px;
+    background-color: #0b1d26; 
+    color: white;
+  }
+  
+  .logo {
+    width: 200px; 
+    height: 70px; 
+    overflow: hidden;
+    position: relative; 
+  }
+  
+  .logo img {
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover; 
+  }
+  
+  
+  .nav-links {
+    display: flex;
+    gap: 15px;
+  }
+  
+  .nav-links a {
+    color: white;
+    text-decoration: none;
+    font-size: 1rem;
+    padding: 5px 10px;
+  }
+  
+  .nav-links a:hover {
+    text-decoration: underline;
+  }
+  
+  .sign-in, .sign-up {
+    border: none;
+    padding: 8px 15px;
+    cursor: pointer;
+    font-size: 1rem;
+    border-radius: 5px;
+  }
+  
+  .sign-in {
+    background-color: transparent;
+    color: #1E8A91;
+    border: 1px solid #1E8A91;
+  }
+  
+  .sign-in:hover {
+    background-color: white;
+    color: #143e1b;
+  }
+  
+  .sign-up {
+    background-color: #1E8A91; 
+    color: white;
+  }
+  
+  .sign-up:hover {
+    background-color: #114d43; 
+  }
+  
+
+
+
+/* General Styles */
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    color: #333;
+  }
+  
+  .landing-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  /* Hero Section */
+  .hero {
+    text-align: center;
+    padding: 100px 20px;
+    background: linear-gradient(135deg, #0D1B2A, #1E8A91);
+    color: white;
+    border-radius: 10px;
+    margin-bottom: 40px;
+  }
+  
+  .hero-title {
+    font-size: 3rem;
+    margin-bottom: 20px;
+  }
+  
+  .hero-subtitle {
+    font-size: 1.2rem;
+    margin-bottom: 40px;
+  }
+  
+  .hero-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
+  
+  .cta-primary, .cta-secondary {
+    padding: 10px 20px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .cta-primary {
+    background: #f35e69;
+    color: white;
+  }
+  
+  .cta-primary:hover {
+    background: #ff4a3d;
+  }
+  
+  .cta-secondary {
+    background: transparent;
+    border: 2px solid white;
+    color: white;
+  }
+  
+  .cta-secondary:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+  
+  /* Features Section */
+  .features {
+    text-align: center;
+    margin-bottom: 60px;
+  }
+  
+  .section-title {
+    font-size: 2rem;
+    margin-bottom: 40px;
+  }
+  
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+  }
+  
+  .feature-card {
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+  }
+  
+  .feature-card:hover {
+    transform: translateY(-10px);
+  }
+  
+  .feature-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+  }
+  
+  .feature-card p {
+    font-size: 1rem;
+    color: #666;
+  }
+  
+/* How It Works Section */
+.how-it-works {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.how-it-works-container {
+  display: flex;
+  align-items: flex-start; /* Aligns the image and content at the top */
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap; /* Ensures responsiveness */
+}
+
+/* Image Styling */
+.how-it-works-image img {
+  max-width: 100%; /* Ensures the image fits within the container */
+  width: 400px; /* Sets a fixed width for the image */
+  height: auto;
+  border-radius: 10px; /* Optional */
+  object-fit: cover; /* Ensures the image maintains its aspect ratio */
+}
+
+/* Steps Section */
+.how-it-works-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 400px; /* Sets a max width for the steps */
+}
+
+/* Step Styling */
+.step {
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.step:hover {
+  transform: translateY(-5px);
+}
+
+/* Responsive for small screens */
+@media (max-width: 768px) {
+  .how-it-works-container {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .how-it-works-image img {
+    width: 100%; /* Makes the image responsive */
+    max-width: 100%; /* Ensures it doesn't overflow */
+  }
+
+  .how-it-works-content {
+    max-width: 100%; /* Ensures the content container is full width on small screens */
+  }
+}
+
+  
+  /* Testimonials Section */
+  .testimonials {
+    text-align: center;
+    margin-bottom: 60px;
+  }
+  
+  .testimonials p {
+    font-style: italic;
+    color: #666;
+  }
+  
+  /* Call to Action Section */
+  .cta-section {
+    text-align: center;
+    padding: 60px 20px;
+    background: #f9f9f9;
+    border-radius: 10px;
+    margin-bottom: 40px;
+  }
+  
+  .cta-section h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+  
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding: 20px;
+    background: #333;
+    color: white;
+    border-radius: 10px;
+  }
+  
+  .footer-links {
+    margin-top: 10px;
+  }
+  
+  .footer-links a {
+    color: white;
+    text-decoration: none;
+    margin: 0 10px;
+  }
+  
+  .footer-links a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .hero-title {
+      font-size: 2rem;
+    }
+  
+    .hero-subtitle {
+      font-size: 1rem;
+    }
+  
+    .features-grid {
+      grid-template-columns: 1fr;
+    }
+  
+    .process-steps {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .step {
+      max-width: 100%;
+    }
+  }

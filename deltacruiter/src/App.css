@@ -1,0 +1,87 @@
+/* Sidebar */
+
+.dashboard-container {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f5f7fa;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* Main content area - Base styles */
+.layout {
+  flex: 1;
+  margin-left: 280px; 
+  padding: 30px;
+  min-height: 100vh;
+}
+
+.sidebar {
+  width: 280px;
+  background: #0b1d26;
+  color: white;
+  padding: 25px 0;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  position: fixed;
+  box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+}
+
+.sidebar-header {
+  padding: 0 25px 25px;
+  border-bottom: 1px solid #0b1d26;
+  margin-bottom: 25px;
+}
+
+.sidebar-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #1E8A91;
+}
+
+.company-logo {
+  width: 40px;
+  height: 40px;
+  background-color: #1E8A91;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: white;
+}
+
+.sidebar nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar nav ul li {
+  margin: 0;
+}
+
+.sidebar nav ul li a {
+  display: flex;
+  align-items: center;
+  padding: 15px 25px;
+  color: #b0bac5;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.sidebar nav ul li a:hover {
+  background-color: #2a3a4a;
+  color: white;
+}
+
+.sidebar nav ul li a i {
+  margin-right: 10px;
+  width: 20px;
+  text-align: center;
+}
+
+.sidebar nav ul li.active a {
+  background-color: #1E8A91;
+  color: white;
+}
