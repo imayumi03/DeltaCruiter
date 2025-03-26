@@ -1,7 +1,7 @@
 import React from "react";
 import "./LandingPage.css";
 import { Link } from 'react-router-dom'; 
-import howItWorksImg from "./Untitled design.png"; // Adjust path if needed
+import howItWorksImg from "./Untitled design.png"; 
 import logo from "../../logo.png";
 
 
@@ -13,11 +13,13 @@ const LandingPage = () => {
     {/* Header */}
     <header className="header">
       <div className="logo">
+      <Link to="/">
         <img src={logo} alt="DeltaCruiter logo" />
+      </Link>
       </div>
       <nav className="nav-links">
-        <a href="#contact">Contact Us</a>
-        <a href="#about">About Us</a>
+        <a href="contact">Contact Us</a>
+        <a href="about">About Us</a>
         <Link to="/login">
           <button className="sign-in">Sign In</button>
         </Link>
@@ -98,8 +100,8 @@ const LandingPage = () => {
       <footer className="footer">
         <p>&copy; 2025 DeltaCruiter. All rights reserved.</p>
         <div className="footer-links">
-          <a href="#">About Us</a>
-          <a href="#">Contact</a>
+          <a href="about">About Us</a>
+          <a href="contact">Contact</a>
           <a href="#">Privacy Policy</a>
         </div>
       </footer>

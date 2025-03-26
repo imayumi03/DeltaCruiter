@@ -1,9 +1,53 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { SignedIn, UserButton } from "@clerk/clerk-react";
 import './JobPostings.css'; // We'll create this CSS file
 
 const JobPostings = () => {
+  // Sample job data
+  const [jobs, setJobs] = useState([
+    {
+      id: 1,
+      title: 'Frontend Developer',
+      department: 'Engineering',
+      type: 'Full-time',
+      location: 'Remote',
+      posted: '2023-05-10',
+      applicants: 24,
+      status: 'Active'
+    },
+    {
+      id: 2,
+      title: 'UX Designer',
+      department: 'Design',
+      type: 'Full-time',
+      location: 'New York',
+      posted: '2023-06-05',
+      applicants: 18,
+      status: 'Active'
+    },
+    {
+      id: 3,
+      title: 'Backend Engineer',
+      department: 'Engineering',
+      type: 'Contract',
+      location: 'San Francisco',
+      posted: '2023-05-22',
+      applicants: 32,
+      status: 'Active'
+    },
+    {
+      id: 4,
+      title: 'Product Manager',
+      department: 'Product',
+      type: 'Full-time',
+      location: 'Boston',
+      posted: '2023-06-12',
+      applicants: 15,
+      status: 'Draft'
+    },
+  ]);
+
   const [showModal, setShowModal] = useState(false);
   const [newJob, setNewJob] = useState({
     title: '',
@@ -12,91 +56,31 @@ const JobPostings = () => {
     location: '',
     description: ''
   });
-  const [jobs, setJobs] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const fetchJobs = async () => {
-      try {
-        const response = await fetch('http://localhost:8000/jobs/');
-        
-        if (!response.ok) {
-          throw new Error('Failed to fetch jobs');
-        }
-        
-        const data = await response.json();
-        setJobs(data);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchJobs();
-  }, []);
-
-  // Loading state
-  if (loading) {
-    return (
-      <div className="loading-container">
-        <div className="loading-spinner"></div>
-        <p>Loading jobs...</p>
-      </div>
-    );
-  }
-
-  // Error state
-  if (error) {
-    return (
-      <div className="error-container">
-        <p>Error: {error}</p>
-        <button onClick={() => window.location.reload()}>Retry</button>
-      </div>
-    );
-  }
-  
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setNewJob(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-  
-    try {
-      const response = await fetch('http://localhost:8000/jobs/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(newJob),
-      });
-  
-      if (!response.ok) {
-        throw new Error('Failed to add job');
-      }
-  
-      const addedJob = await response.json();
-  
-      // Update the job list with the new job from the backend
-      setJobs(prev => [...prev, addedJob]);
-  
-      // Reset form and close modal
-      setNewJob({
-        title: '',
-        department: '',
-        type: '',
-        location: '',
-        description: ''
-      });
-      setShowModal(false);
-    } catch (error) {
-      console.error('Error adding job:', error);
-      setError(error.message);
-    }
+    // Add new job to the list
+    setJobs(prev => [...prev, {
+      ...newJob,
+      id: prev.length + 1,
+      posted: new Date().toISOString().split('T')[0],
+      applicants: 0,
+      status: 'Draft'
+    }]);
+    setShowModal(false);
+    setNewJob({
+      title: '',
+      department: '',
+      type: '',
+      location: '',
+      description: ''
+    });
   };
-  
 
   const toggleJobStatus = (id) => {
     setJobs(prev => prev.map(job => 
@@ -109,7 +93,7 @@ const JobPostings = () => {
   return (
     <div className="jobpostings-page">
       <SignedIn>
-        {/* Top Bar - Consistent with Dashboard */}
+        {/* Top Bar */}
         <div className="dashboard-topbar">
           <h1>Job Postings</h1>
           <div className="topbar-actions">

@@ -28,7 +28,7 @@ const Layout = () => {
           </nav>
         </div>
 
-        {/* Main content area where child routes will render */}
+        
         <div className="layout">
           <Outlet />
         </div>

@@ -184,19 +184,19 @@ body {
 
 .how-it-works-container {
   display: flex;
-  align-items: flex-start; /* Aligns the image and content at the top */
+  align-items: flex-start; 
   justify-content: center;
   gap: 40px;
-  flex-wrap: wrap; /* Ensures responsiveness */
+  flex-wrap: wrap; 
 }
 
 /* Image Styling */
 .how-it-works-image img {
-  max-width: 100%; /* Ensures the image fits within the container */
-  width: 400px; /* Sets a fixed width for the image */
+  max-width: 100%;
+  width: 400px; 
   height: auto;
-  border-radius: 10px; /* Optional */
-  object-fit: cover; /* Ensures the image maintains its aspect ratio */
+  border-radius: 10px;
+  object-fit: cover; 
 }
 
 /* Steps Section */
@@ -204,7 +204,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 20px;
-  max-width: 400px; /* Sets a max width for the steps */
+  max-width: 400px; 
 }
 
 /* Step Styling */
@@ -228,12 +228,12 @@ body {
   }
 
   .how-it-works-image img {
-    width: 100%; /* Makes the image responsive */
-    max-width: 100%; /* Ensures it doesn't overflow */
+    width: 100%; 
+    max-width: 100%; 
   }
 
   .how-it-works-content {
-    max-width: 100%; /* Ensures the content container is full width on small screens */
+    max-width: 100%; 
   }
 }
 
