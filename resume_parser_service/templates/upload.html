@@ -1,0 +1,24 @@
+{% if error %}
+<div class="alert alert-danger">
+  {{ error }}
+</div>
+{% endif %}
+
+{% if warning %}
+<div class="alert alert-warning">
+  {{ warning }}
+</div>
+{% endif %}
+
+{% if parsed_data %}
+<div class="resume-data">
+  <h3>Parsed Resume Data</h3>
+  <pre>{{ parsed_data|pprint }}</pre>
+</div>
+{% endif %}
+
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  <input type="file" name="file" accept=".pdf,.docx">
+  <button type="submit">Upload Resume</button>
+</form>

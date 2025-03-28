@@ -1,4 +1,10 @@
-Django>=4.2
-djongo
+django==4.2
 djangorestframework
 psycopg2-binary
+gunicorn
+spacy==3.5.0
+resume-parser==0.8.4
+pdfplumber==0.11.0
+nltk==3.8.1
+python-dateutil==2.9.0
+pandas==2.2.3

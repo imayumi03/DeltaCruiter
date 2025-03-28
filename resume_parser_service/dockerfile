@@ -1,29 +1,69 @@
-FROM python:3.9-slim
+# Use official Python image
+FROM python:3.10-slim
 
-WORKDIR /usr/src/app
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
 
-COPY requirements.txt requirements.txt
+# Install system dependencies
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends gcc python3-dev && \
+    rm -rf /var/lib/apt/lists/*
 
+# Set work directory
+WORKDIR /app
 
-RUN apt-get update && apt-get install -y \
-    gcc \
-    libpq-dev \
-    && pip install --upgrade pip \
-    && pip install -r requirements.txt
+# Install Python dependencies
+COPY requirements.txt .
+RUN pip install --upgrade pip && \
+    pip install -r requirements.txt && \
+    python -m spacy download en_core_web_sm && \
+    python -m nltk.downloader punkt stopwords
 
+# Patch resume-parser package
+RUN sed -i '/spacy.load(os.path.join(base_path/d' /usr/local/lib/python3.10/site-packages/resume_parser/resumeparse.py && \
+    sed -i '/^import/ a\# PATCH: Disable all custom models\ncustom_nlp = None\ncustom_nlp2 = None\ncustom_nlp3 = None\n' /usr/local/lib/python3.10/site-packages/resume_parser/resumeparse.py && \
+    sed -i 's/return nlp/return spacy.load("en_core_web_sm") if nlp is None else nlp/' /usr/local/lib/python3.10/site-packages/resume_parser/resumeparse.py
 
+# Copy project files
 COPY . .
 
-# CMD ["sh", "-c", "python manage.py makemigrations &&  python manage.py migrate --noinput 2>/dev/null;&& python manage.py runserver 0.0.0.0:8000"]
+# Create a simple test endpoint
+RUN echo "from django.http import JsonResponse" >> /app/resume_parser/views.py && \
+    echo "from .utils import parse_resume" >> /app/resume_parser/views.py && \
+    echo "def test_parse(request):" >> /app/resume_parser/views.py && \
+    echo "    with open('example.pdf', 'rb') as f:" >> /app/resume_parser/views.py && \
+    echo "        return JsonResponse(parse_resume(f))" >> /app/resume_parser/views.py
+
+# Create utility file with our robust parser
+RUN echo "import pdfplumber" > /app/resume_parser/utils.py && \
+    echo "import re" >> /app/resume_parser/utils.py && \
+    echo "import tempfile" >> /app/resume_parser/utils.py && \
+    echo "from resume_parser import resumeparse" >> /app/resume_parser/utils.py && \
+    echo "import spacy" >> /app/resume_parser/utils.py && \
+    echo "import logging" >> /app/resume_parser/utils.py && \
+    echo "logger = logging.getLogger(__name__)" >> /app/resume_parser/utils.py && \
+    echo "def parse_resume(file):" >> /app/resume_parser/utils.py && \
+    echo "    try:" >> /app/resume_parser/utils.py && \
+    echo "        with tempfile.NamedTemporaryFile(suffix='.pdf') as tmp:" >> /app/resume_parser/utils.py && \
+    echo "            tmp.write(file.read())" >> /app/resume_parser/utils.py && \
+    echo "            tmp.flush()" >> /app/resume_parser/utils.py && \
+    echo "            try:" >> /app/resume_parser/utils.py && \
+    echo "                nlp = spacy.load('en_core_web_sm')" >> /app/resume_parser/utils.py && \
+    echo "                return resumeparse.read_file(tmp.name, nlp=nlp)" >> /app/resume_parser/utils.py && \
+    echo "            except Exception as e:" >> /app/resume_parser/utils.py && \
+    echo "                logger.warning(f'Parser failed, using fallback: {e}')" >> /app/resume_parser/utils.py && \
+    echo "                with pdfplumber.open(tmp.name) as pdf:" >> /app/resume_parser/utils.py && \
+    echo "                    text = '\\n'.join(p.extract_text() or '' for p in pdf.pages)" >> /app/resume_parser/utils.py && \
+    echo "                return {" >> /app/resume_parser/utils.py && \
+    echo "                    'text': text," >> /app/resume_parser/utils.py && \
+    echo "                    'emails': re.findall(r'[\\w\\.-]+@[\\w\\.-]+', text)," >> /app/resume_parser/utils.py && \
+    echo "                    'phones': re.findall(r'(\\d{3}[-\\.\\s]??\\d{3}[-\\.\\s]??\\d{4})', text)" >> /app/resume_parser/utils.py && \
+    echo "                }" >> /app/resume_parser/utils.py && \
+    echo "    except Exception as e:" >> /app/resume_parser/utils.py && \
+    echo "        logger.error(f'Processing failed: {e}')" >> /app/resume_parser/utils.py && \
+    echo "        return {'error': str(e)}" >> /app/resume_parser/utils.py
 
 
-# CMD ["sh", "-c", "python manage.py makemigrations && python manage.py migrate --noinput 2>/dev/null;&& daphne -b 0.0.0.0 -p 8000 auth.asgi:application"]
-# daphne -b 0.0.0.0 -p 8000 transcendence.asgi:application
-
-COPY ./script.sh /usr/bin
-RUN chmod +x /usr/bin/script.sh
-
-# Expose the desired port (replace with your app's port if needed)
-# EXPOSE 8000
-
-CMD ["sh", "/usr/bin/script.sh"]
+EXPOSE 8000
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]

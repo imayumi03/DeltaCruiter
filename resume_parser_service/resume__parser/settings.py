@@ -26,6 +26,56 @@ SECRET_KEY = 'django-insecure-1-^9h@hl(obk-#wne9&umozj7#z*fllo-(xs(nc-!o#4=5b1%x
 DEBUG = True
 
 ALLOWED_HOSTS = []
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {
+            "level": "DEBUG",  # Change from WARNING to DEBUG
+            "class": "logging.StreamHandler",
+        },
+    },
+    "loggers": {
+        "django": {
+            "handlers": ["console"],
+            "level": "DEBUG",  # Change from WARNING to DEBUG
+            "propagate": True,
+        },
+        "__main__": {
+            "handlers": ["console"],
+            "level": "DEBUG",
+            "propagate": True,
+        },
+    },
+}
+
+# LOGGING = {
+#     "version": 1,
+#     "disable_existing_loggers": False,
+#     "handlers": {
+#         "file": {
+#             "level": "DEBUG",
+#             "class": "logging.FileHandler",
+#             "filename": "debug.log",
+#         },
+#         "console": {
+#             "level": "DEBUG",  # Change to DEBUG to see debug logs
+#             "class": "logging.StreamHandler",
+#         },
+#     },
+#     "loggers": {
+#         "django": {
+#             "handlers": ["file", "console"],
+#             "level": "DEBUG",
+#             "propagate": True,
+#         },
+#         "__main__": {
+#             "handlers": ["console"],
+#             "level": "DEBUG",
+#             "propagate": True,
+#         },
+#     },
+# }
 
 
 # Application definition
@@ -51,12 +101,12 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'resume_parser.urls'
+ROOT_URLCONF = 'resume__parser.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        "DIRS": [os.path.join(BASE_DIR, "templates")],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -69,7 +119,8 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'resume_parser.wsgi.application'
+
+WSGI_APPLICATION = 'resume__parser.wsgi.application'
 
 
 # Database
@@ -93,16 +144,20 @@ DATABASES = {
     }
 }
 
-DATABASES['mongodb'] = {
-    'ENGINE': 'djongo',
-    'NAME': 'resume_db',  # You can name the MongoDB database as needed
-    'CLIENT': {
-        'host': 'mongodb://mongo_db:27017',  # Docker service name for MongoDB
-        'username': '',  # Add your MongoDB username if needed
-        'password': '',  # Add your MongoDB password if needed
-        'authSource': 'admin',
-    }
-}
+# DATABASES['mongodb'] = {
+#     'ENGINE': 'djongo',
+#     'NAME': 'resume_db',  # You can name the MongoDB database as needed
+#     'CLIENT': {
+#         'host': 'mongodb://mongo_db:27017',  # Docker service name for MongoDB
+#         'username': '',  # Add your MongoDB username if needed
+#         'password': '',  # Add your MongoDB password if needed
+#         'authSource': 'admin',
+#     }
+# }
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
