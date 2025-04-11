@@ -1,0 +1,15 @@
+fastapi
+uvicorn
+motor
+PyPDF2==3.0.1
+pydantic>=2.0.0 
+python-multipart==0.0.7
+openai 
+pymongo
+python-multipart
+python-jose
+passlib
+python-dotenv
+httpx
+scikit-learn
+numpy
